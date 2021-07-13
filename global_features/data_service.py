@@ -10,11 +10,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 # import custom functions for global features extraction
-from globalFeatures.feature_extractor import extract_global_features
+from global_features.feature_extractor import extract_global_features
 from data.data_loader import prepare_images
 
 # path to data
-data_dir = './data/chest_xray'
+data_dir = '../data/sample'
 
 # get labeled images
 labeled_images = prepare_images(data_dir)
