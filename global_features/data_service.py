@@ -14,7 +14,7 @@ from global_features.feature_extractor import extract_global_features
 from data.data_loader import prepare_images
 
 # path to data
-data_dir = '../data/sample'
+data_dir = '../data/chest_xray'
 
 # get labeled images
 labeled_images = prepare_images(data_dir)
@@ -37,5 +37,5 @@ X_test = pd.DataFrame(X_test)
 train_data = pd.concat([pd.DataFrame(y_train), X_train], axis=1)
 test_data = pd.concat([pd.DataFrame(y_test), X_test], axis=1)
 
-train_data.to_csv('train_data.csv', index=False)
-test_data.to_csv('test_data.csv', index=False)
+train_data.to_csv('train_data_full.csv', index=False)
+test_data.to_csv('test_data_full.csv', index=False)
