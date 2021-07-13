@@ -22,6 +22,6 @@ def prepare_images(data_dir):
                 data.append([class_num, img_arr])
             except Exception as e:
                 print(e)
-        print(f'[STATUS] images from', path, 'prepared')
+        print(f'[STATUS] images from ', path, ' prepared')
         print(f'[STATUS] ', class_num)
     return data
