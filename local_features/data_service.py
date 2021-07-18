@@ -14,7 +14,7 @@ from local_features.feature_extractor import extract_local_features, fit_transfo
 from data.data_loader import prepare_images
 
 # path to data
-data_dir = '../data/chest_xray'
+data_dir = '../data/sample'
 
 # get labeled images
 labeled_images = prepare_images(data_dir)
@@ -48,5 +48,5 @@ X_test_trans_bovw = pd.DataFrame(X_test_trans_bovw)
 train_trans_bovw = pd.concat([pd.DataFrame(y_train), X_train_trans_bovw], axis=1)
 test_trans_bovw = pd.concat([pd.DataFrame(y_test), X_test_trans_bovw], axis=1)
 
-train_trans_bovw.to_csv('train_data_full_sift_100.csv', index=False)
-test_trans_bovw.to_csv('test_data_full_sift_100.csv', index=False)
+train_trans_bovw.to_csv('train_data_sample_orb_200.csv', index=False)
+test_trans_bovw.to_csv('test_data_sample_orb_200.csv', index=False)

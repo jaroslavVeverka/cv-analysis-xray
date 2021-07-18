@@ -15,8 +15,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 
-train_trans_bovw = pd.read_csv('../train_trans_bovw_sample.csv')
-test_trans_bovw = pd.read_csv('../test_trans_bovw_sample.csv')
+train_trans_bovw = pd.read_csv('../train_data_sample_orb_100.csv')
+test_trans_bovw = pd.read_csv('../test_data_sample_orb_100.csv')
 
 y_train = train_trans_bovw.iloc[:,0]
 y_test = test_trans_bovw.iloc[:,0]
