@@ -17,14 +17,16 @@ from scipy.cluster.vq import kmeans, vq
 
 def extract_local_features(images, img_size=300):
     #brisk = cv2.BRISK_create()
-    sift = cv2.SIFT_create(edgeThreshold = 12)
-    #surf = cv2.SURF(400)
+    sift = cv2.ORB_create(edgeThreshold=2, patchSize=2)    #surf = cv2.SURF(400)
     labeled_featured_images = []
     print('[STATUS] extracting local featured from', len(images), 'images')
     for i, image in enumerate(images):
         resized_arr = cv2.resize(image, (img_size, img_size))
         
         kpts, des = sift.detectAndCompute(resized_arr, None)
+        
+        if(kpts == 0):
+            print('No keypoint detected')
         
         # create picture with detected kpts
         if (i == 0):
@@ -44,7 +46,7 @@ def extract_local_features(images, img_size=300):
     return labeled_featured_images
 
 
-def fit_transform_bovw(data, k = 100):
+def fit_transform_bovw(data, k = 200):
     # split all arrays into one
     descriptors = np.vstack(data)
     descriptors = descriptors.astype(float)
@@ -62,7 +64,7 @@ def fit_transform_bovw(data, k = 100):
     return features, voc
 
 
-def transform_bovw(data, fitted_kmeans, k = 100):
+def transform_bovw(data, fitted_kmeans, k = 200):
     # split all arrays into one
     descriptors = np.vstack(data)
     descriptors = descriptors.astype(float)
