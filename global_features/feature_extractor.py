@@ -16,10 +16,15 @@ import h5py
 
 bins = 8
 
+#feature-descriptor-0: Color Channel Descriptor
+def fd_color_channel_desc(image):
+    (means, stds) = cv2.meanStdDev(image)
+    feature = np.concatenate([means, stds]).flatten()
+    return feature
 
 # feature-descriptor-1: Hu Moments
 def fd_hu_moments(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     feature = cv2.HuMoments(cv2.moments(image)).flatten()
     return feature
 
@@ -27,9 +32,9 @@ def fd_hu_moments(image):
 # feature-descriptor-2: Haralick Texture
 def fd_haralick(image):
     # convert the image to grayscale
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     # compute the haralick texture feature vector
-    haralick = mahotas.features.haralick(gray).mean(axis=0)
+    haralick = mahotas.features.haralick(image).mean(axis=0)
     # return the result
     return haralick
 
@@ -37,9 +42,9 @@ def fd_haralick(image):
 # feature-descriptor-3: Color Histogram
 def fd_histogram(image, mask=None):
     # convert the image to HSV color-space
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     # compute the color histogram
-    hist = cv2.calcHist([image], [0, 1, 2], None, [bins, bins, bins], [0, 256, 0, 256, 0, 256])
+    hist = cv2.calcHist([image], [0], None, [20], [0, 256])
     # normalize the histogram
     cv2.normalize(hist, hist)
     # return the histogram
@@ -47,17 +52,19 @@ def fd_histogram(image, mask=None):
 
 
 
-def extract_global_features(images, img_size=300):
+def extract_global_features(images):
     labeled_featured_images = []
     print('[STATUS] extracting global featured from', len(images), 'images')
     for i, image in enumerate(images):
-        resized_arr = cv2.resize(image, (img_size, img_size))
+        #resized_arr = cv2.resize(image, (img_size, img_size))
 
-        fv_hu_moments = fd_hu_moments(resized_arr)
-        fv_haralick = fd_haralick(resized_arr)
-        fv_histogram = fd_histogram(resized_arr)
+        fv_color_channel = fd_color_channel_desc(image)
+        fv_hu_moments = fd_hu_moments(image)
+        fv_haralick = fd_haralick(image)
+        fv_histogram = fd_histogram(image)
 
-        labeled_featured_images.append(np.hstack([fv_hu_moments, fv_haralick, fv_histogram]))
+        labeled_featured_images.append(np.hstack([fv_color_channel, fv_hu_moments, fv_haralick, fv_histogram]))
+        
 
         if (i + 1) % 100 == 0:
             print('[STATUS]', i + 1, 'images processed')

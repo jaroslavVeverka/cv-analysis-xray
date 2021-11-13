@@ -14,28 +14,40 @@ from global_features.feature_extractor import extract_global_features
 from data.data_loader import prepare_images
 
 # path to data
-data_dir = '../data/chest_xray'
+train_data_dir = '../data/preprocessed_chest_xray/train'
+test_data_dir = '../data/preprocessed_chest_xray/test'
 
 # get labeled images
-labeled_images = prepare_images(data_dir)
-print('[STATUS] data size: ', np.array(labeled_images).shape)
+train_labeled_images = prepare_images(train_data_dir)
+print('[STATUS] data size: ', np.array(train_labeled_images).shape)
 
-images = [image[1] for image in labeled_images]
+test_labeled_images = prepare_images(test_data_dir)
+print('[STATUS] data size: ', np.array(test_labeled_images).shape)
+
+
+train_images = [image[1] for image in train_labeled_images]
+test_images = [image[1] for image in test_labeled_images]
 # get Y
-labels = [image[0] for image in labeled_images]
+train_labels = [image[0] for image in train_labeled_images]
+test_labels = [image[0] for image in test_labeled_images]
+
 
 # get extracted features of images: X
-extracted_features = extract_global_features(images)
+train_extracted_features = extract_global_features(train_images)
+test_extracted_features = extract_global_features(test_images)
 
-X_train, X_test, y_train, y_test = train_test_split(np.array(extracted_features),
-                                                    np.array(labels),
-                                                    test_size=0.2, stratify=np.array(labels), random_state=42)
 
-X_train = pd.DataFrame(X_train)
-X_test = pd.DataFrame(X_test)
+print('[INFO] train X dim: ', np.array(train_extracted_features).shape)
+print('[INFO] test X dim: ', np.array(test_extracted_features).shape)
+print('[INFO] train Y dim: ', np.array(train_labels).shape)
+print('[INFO] test Y dim: ', np.array(test_labels).shape)
 
-train_data = pd.concat([pd.DataFrame(y_train), X_train], axis=1)
-test_data = pd.concat([pd.DataFrame(y_test), X_test], axis=1)
+
+X_train = pd.DataFrame(train_extracted_features)
+X_test = pd.DataFrame(test_extracted_features)
+
+train_data = pd.concat([pd.DataFrame(train_labels), X_train], axis=1)
+test_data = pd.concat([pd.DataFrame(test_labels), X_test], axis=1)
 
 train_data.to_csv('train_data_full.csv', index=False)
 test_data.to_csv('test_data_full.csv', index=False)

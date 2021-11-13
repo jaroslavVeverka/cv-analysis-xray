@@ -18,7 +18,8 @@ def prepare_images(data_dir):
         class_num = labels.index(label)
         for img in os.listdir(path):
             try:
-                img_arr = cv2.imread(os.path.join(path, img))
+                img_arr = cv2.imread(os.path.join(path, img), 0)
+               # print(img_arr.shape)
                 data.append([class_num, img_arr])
             except Exception as e:
                 print(e)
