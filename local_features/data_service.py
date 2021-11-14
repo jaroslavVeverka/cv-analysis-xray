@@ -45,7 +45,7 @@ print('[INFO] test X dim: ', np.array(test_extracted_features).shape)
 print('[INFO] train Y dim: ', np.array(train_labels).shape)
 print('[INFO] test Y dim: ', np.array(test_labels).shape)
 
-k_range = [10, 25, 50, 100]
+k_range = [125, 175, 200]
 
 for k in k_range:
     
@@ -62,8 +62,8 @@ for k in k_range:
     train_trans_bovw = pd.concat([pd.DataFrame(train_labels), X_train_trans_bovw], axis=1)
     test_trans_bovw = pd.concat([pd.DataFrame(test_labels), X_test_trans_bovw], axis=1)
     
-    train_path = './data/train_orb_' + str(k) + '.csv'
-    test_path = './data/test_orb_' + str(k) + '.csv'
+    train_path = './data/train_sift_' + str(k) + '.csv'
+    test_path = './data/test_sift_' + str(k) + '.csv'
     
     train_trans_bovw.to_csv(train_path, index=False)
     test_trans_bovw.to_csv(test_path, index=False)
